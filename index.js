@@ -2,10 +2,10 @@ const scan  = require('./scan');
 require('date-utils');
 const puppeteer = require('puppeteer');
 const fs = require('fs');
-const number = "AF21022";//個人でーた入力
-const name = "光永和生";//名前入力
-const sorce_current = "C:\\deta\\CLion\\tempcode\\";
-const save_current = "C:\\Users\\makin\\Desktop\\";
+const number = ;//学番入力
+const name = ;//名前入力
+const sorce_current = /*ソースコードがあるディレクトリ*/;
+const save_current = /*テキストファイルを保存するディレクトリ*/;
 
 (async ()=>{
     console.log("今回の課題問題番号を入力してください");

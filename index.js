@@ -39,19 +39,23 @@ const save_current = "C:\\Users\\makin\\Desktop\\";
         text += q[parseInt(question.split(/-/)[1])-1];
         text+="\n[解答]\n";
         console.log("ファイル名を入力してください。(ない場合は空文字入力)");
-        const file = await scan();
-        if(!file){
-            text+="\n";
-            continue;
-        }
-        text+="次に"+file+"を示す。\n"
-        text+="===ここから"+file+"===\n";
-        text+=fs.readFileSync(sorce_current+file,'utf8');
-        text+="\n===ここまで"+file+"===\n";
-        if(file.match(/.*\.c/)){
-            text+="\n次に"+file+"の実行結果を示す。\n"
-            text+="===ここから"+file+"の実行結果===\n";
-            text+="\n===ここまで"+file+"の実行結果===\n";
+        while (true){
+            const file = await scan();
+            if(!file){
+                text+="\n";
+                break;
+            }
+            text+="次に"+file+"を示す。\n"
+            text+="===ここから"+file+"===\n";
+            text+=fs.readFileSync(sorce_current+file,'utf8');
+            text+="\n===ここまで"+file+"===\n";
+            if(file.match(/.*\.c/)){
+                text+="\n次に"+file+"の実行結果を示す。\n";
+                text+="===ここから"+file+"の実行結果===\n";
+                let resfile = file.slice(0,-2)+".txt";
+                text+=fs.readFileSync(sorce_current+resfile,'utf8');
+                text+="\n===ここまで"+file+"の実行結果===\n";
+            }
         }
     }
     text+="\n----------------------------\n";

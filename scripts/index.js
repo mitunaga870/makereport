@@ -1,9 +1,16 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
+const store = require('../scripts/store.js')
+const get_q = require("../scripts/getqueations");
 require('date-utils');
+
 const main = document.getElementById('main');
-const add_bt = document.getElementById('add');
+const add_bt = document.getElementById('add');  
 const send_bt = document.getElementById('make');
+
+const name = store.get('name');
+const id = store.get('id');
+const save_directory = store.get('save_path');
 
 let q_amount=1;
 
@@ -37,31 +44,34 @@ let q_amount=1;
         let files_eles = document.getElementsByClassName('sorce');
         let title = "AF21022-SoftC-"+await titlemake(report_num,qnumbers)+".txt";
         const dt = new Date().toFormat("MM月DD日");
-        let text = "情報通信基礎実験Cソフトウェア実習レポート("+await textmake(report_num,qnumbers)+")("+dt+")\n\n";
-        console.log(title+"\n"+text);
-        let browser = await puppeteer.launch({headless:true});
-        let page = await browser.newPage();
-        await page.goto('http://web.kanz.ice.shibaura-it.ac.jp/softC/report/report'+report_num+'.html');
-        let q = await page.$$eval("ol", (list) => {
-            let li = list[0].getElementsByTagName('li');
-            let res = [];
-            for (let text of li){
-                if (!text.parentNode.parentNode.tagName.match('LI'))
-                    res.push(text.textContent);
-            }
-            return res;
-        })
+        let text = "情報通信基礎実験Cソフトウェア実習レポート("+await textmake(report_num,qnumbers)+")("+dt+")\n";
+        text += "\n" + id + " " + name + "\n\n";
+        let q = await get_q(report_num);
         for(let i in qnumbers){
-            text += "["+report_num+qnumbers[i]+"]\n\n";
+            text += "["+report_num+"-"+qnumbers[i]+"]\n";
             text += q[qnumbers[i]-1];
             text += "\n[解答]\n"
             if (files_eles[i]){
-                for(let item of files_eles[i].files)
-                    text += "次に"+item.name+"を示す。n"
-                    text += fs.readFileSync(item.path,'utf8')
+                for(let item of files_eles[i].files) {
+                    text += "次に" + item.name + "を示す。\n"
+                    text += "===ここから" + item.name + "===\n"
+                    text += fs.readFileSync(item.path, 'utf8');
+                    text += "\n===ここまで" + item.name + "===\n"
+                    if(item.name.match(/.*\.c/)) {
+                        text += "===ここから" + item.name + "の実行結果===\n"
+                        path = item.path;
+                        path = path.slice(0, -2) + ".txt";
+                        text+=fs.readFileSync(path,'utf8');
+                        text += "\n===ここまで" + item.name + "の実行結果===\n\n"
+                    }
+                }
             }
         }
-    })
+        text+="----------------------------\n";
+        text+=id+" "+name;
+        fs.writeFileSync(save_directory+title,text);
+        browser.close();
+    });
 })();
 
 async function getqnumbers(){

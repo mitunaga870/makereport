@@ -1,20 +1,54 @@
 {
   "name": "makereport",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-win": "node_modules/.bin/electron-builder --win --x64"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "date-utils": "^1.2.21",
-    "electron": "^19.0.3",
     "electron-store": "^8.0.1",
     "nexe": "^4.0.0-beta.19",
-    "puppeteer": "^13.5.2",
+    "puppeteer": "^14.2.1",
     "readline-sync": "^1.4.10"
-  }
+  },
+  "devDependencies": {
+    "electron": "^17.1.0",
+    "remote": "^0.2.6"
+  },
+  "build": {
+    "appId": "mytools.BECreporter",
+    "files": [
+      "html",
+      "scripts",
+      "index.js",
+      "package.json",
+      "package-lock.json"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "Asset/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  },
+  "devdependencies": {
+    "electron-builder": "^22.10.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mitunaga870/makereport.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mitunaga870/makereport/issues"
+  },
+  "homepage": "https://github.com/mitunaga870/makereport#readme",
+  "description": ""
 }

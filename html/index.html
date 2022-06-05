@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cのレポート作るやつ</title>
+    <link rel="stylesheet" type="text/css" href="index.css">
+</head>
+<body>
+<header>
+    <div id="title">情報通信基礎実験Cのレポート作るやつ</div>
+    <div id="headbt">
+    <a href="setting.html">設定</a>
+    </div>
+</header>
+<div id="rp_number">
+    レポート番号(ex:A01)
+    <input type="text" id="report_number">
+</div>
+<div id="main">
+    <div class="q_form">
+        <div>問題番号</div>
+        <input id="q_1" type="text" class="q_number">
+        <div>ソースファイル（同名のテキストファイルに実行結果を書き込んでおくとそれも自動で取得できます。）</div>
+        <input id="f_1" type="file" multiple class="sorce">
+    </div>
+    <div>
+
+    </div>
+</div>
+<div id="buttons">
+    <button id="add">問題を追加</button>
+    <button id="make">ファイルを作成</button>
+</div>
+<script src="../scripts/index.js"></script>
+</body>
+</html>
